@@ -17,7 +17,7 @@ function controllerRouting(app) {
 
   router.post('/users', (req, res) => {
     UsersController.postNew(req, res);
-  })
+  });
 }
 
 export default controllerRouting;
