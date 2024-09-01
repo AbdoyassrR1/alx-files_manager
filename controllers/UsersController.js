@@ -1,10 +1,9 @@
 #!/usr/bin/node
-import dbClient from '../utils/db';
 import sha1 from 'sha1';
 import Queue from 'bull';
+import dbClient from '../utils/db';
 
 const userQueue = new Queue('userQueue');
-
 
 class UsersController {
   static async postNew(request, response) {
@@ -14,7 +13,7 @@ class UsersController {
       return response.status(400).send({ error: 'Missing email' });
     }
 
-    if (!password) { 
+    if (!password) {
       return response.status(400).send({ error: 'Missing password' });
     }
 
@@ -46,7 +45,6 @@ class UsersController {
     });
 
     return response.status(201).send(user);
-
   }
 }
 
