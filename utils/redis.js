@@ -6,6 +6,8 @@ class RedisClient {
   constructor() {
     this.client = createClient();
     this.getAsync = promisify(this.client.get).bind(this.client);
+    this.setexAsync = promisify(this.client.setex).bind(this.client); // Optional: Promisify setex
+    this.delAsync = promisify(this.client.del).bind(this.client); // Optional: Promisify del
 
     this.client.on('error', (error) => {
       console.log('Redis Client Failed To Connect: ', error);
@@ -21,17 +23,31 @@ class RedisClient {
   }
 
   async get(key) {
-    const value = await this.getAsync(key);
-    return value;
+    try {
+      const value = await this.getAsync(key);
+      return value;
+    } catch (error) {
+      console.error('Error getting key from Redis:', error);
+      return null;
+    }
   }
 
   async set(key, value, duration) {
-    this.client.setex(key, duration, value);
+    try {
+      await this.setexAsync(key, duration, value); // Awaiting setex
+    } catch (error) {
+      console.error('Error setting key in Redis:', error);
+    }
   }
 
   async del(key) {
-    this.client.del(key);
+    try {
+      await this.delAsync(key); // Awaiting del
+    } catch (error) {
+      console.error('Error deleting key from Redis:', error);
+    }
   }
 }
+
 const redisClient = new RedisClient();
 export default redisClient;
