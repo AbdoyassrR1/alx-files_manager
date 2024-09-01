@@ -32,17 +32,11 @@ class DBClient {
   }
 
   async nbUsers() {
-    if (this.isAlive()) {
-      return this.usersCollection.countDocuments();
-    }
-    return 0;
+    return this.usersCollection.countDocuments();
   }
 
   async nbFiles() {
-    if (this.isAlive()) {
-      return this.filesCollection.countDocuments();
-    }
-    return 0;
+    return this.filesCollection.countDocuments();
   }
 }
 
