@@ -55,7 +55,9 @@ class UsersController {
 
       const xToken = request.header('X-Token');
 
-      if (!xToken) return obj;
+      if (!xToken) {
+        return obj;
+      }
 
       obj.key = `auth_${xToken}`;
 
